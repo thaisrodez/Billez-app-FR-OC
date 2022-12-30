@@ -11,8 +11,17 @@ describe("Given I am connected as an employee", () => {
     test("Then the new bill form should be display", () => {
       const html = NewBillUI();
       document.body.innerHTML = html;
-      //to-do write assertion
+      // form with all inputs should be in the DOM
       expect(screen.getByTestId("form-new-bill")).toBeInTheDocument();
+      expect(screen.getByTestId("expense-type")).toBeInTheDocument();
+      expect(screen.getByTestId("expense-name")).toBeInTheDocument();
+      expect(screen.getByTestId("datepicker")).toBeInTheDocument();
+      expect(screen.getByTestId("amount")).toBeInTheDocument();
+      expect(screen.getByTestId("vat")).toBeInTheDocument();
+      expect(screen.getByTestId("pct")).toBeInTheDocument();
+      expect(screen.getByTestId("commentary")).toBeInTheDocument();
+      expect(screen.getByTestId("file")).toBeInTheDocument();
+      expect(screen.getByText("Envoyer")).toBeInTheDocument();
     });
   });
 });
