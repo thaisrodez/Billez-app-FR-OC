@@ -131,7 +131,9 @@ describe("Given that I am connected as an employee", () => {
       // Bills table should be display
       const billTable = screen.getByTestId("tbody");
       expect(billTable).toBeTruthy();
-      // not enough
+
+      // Mock bills should be displayed
+      expect(screen.getByText("test1")).toBeTruthy();
     });
   });
 
@@ -145,6 +147,7 @@ describe("Given that I am connected as an employee", () => {
       document.body.appendChild(root);
       router();
     });
+
     test("fetches bills from an API and fails with 404 message error", async () => {
       mockStore.bills.mockImplementationOnce(() => {
         return {
