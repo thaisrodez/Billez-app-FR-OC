@@ -46,9 +46,14 @@ export default class NewBill {
         })
         .catch((error) => console.error(error));
     } else {
-      alert("Ce type de fichier n'est pas pris en charge.");
+      $("#modalError").modal("show");
+      const error = new Error("L'extension de ce fichier n'est pas supportée.");
+      console.error(error);
+      // clean field
+      e.target.value = "";
     }
   };
+
   handleSubmit = (e) => {
     e.preventDefault();
     console.log(

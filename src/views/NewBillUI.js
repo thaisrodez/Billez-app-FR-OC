@@ -1,8 +1,22 @@
-import VerticalLayout from './VerticalLayout.js'
+import VerticalLayout from "./VerticalLayout.js";
 
 export default () => {
+  const errorModal = () => `
+    <div class="modal fade" id="modalError" data-testid="error-file-extension" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Erreur</h5>
+          </div>
+          <div class="modal-body">
+            <p>Ce type de fichier n'est pas pris en charge.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 
-  return (`
+  return `
     <div class='layout'>
       ${VerticalLayout(120)}
       <div class='content'>
@@ -38,7 +52,7 @@ export default () => {
                     <input required type="number" class="form-control blue-border input-icon input-icon-right" data-testid="amount" placeholder="348"/>
                   </div>
                   <div class="col-half-row">
-                    <div class="flex-col"> 
+                    <div class="flex-col">
                       <label for="vat" class="bold-label">TVA</label>
                       <input type="number" class="form-control blue-border" data-testid="vat" placeholder="70" />
                     </div>
@@ -69,6 +83,7 @@ export default () => {
           </form>
         </div>
       </div>
+      ${errorModal()}
     </div>
-  `)
-}
+  `;
+};
