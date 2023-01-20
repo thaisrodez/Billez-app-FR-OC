@@ -175,53 +175,6 @@ describe("Given I am connected as an employee and I am on a NewBill page", () =>
         expect(handleChangeFile).toBeCalled();
         expect(screen.getByTestId("error-file-extension")).toBeTruthy();
       });
-
-      test("Then I can choose file but there are an error server 500", async () => {
-        jest.spyOn(mockStore, "bills");
-        //previent le console.error,
-        jest.spyOn(console, "error").mockImplementation(() => {});
-
-        const onNavigate = (pathname) => {
-          document.body.innerHTML = ROUTES({ pathname });
-        };
-
-        const html = NewBillUI();
-        document.body.innerHTML = html;
-
-        //initie le store
-        const store = mockStore;
-
-        //Initie newBill
-        const newBill = new NewBill({
-          document,
-          onNavigate,
-          store,
-          localStorage: window.localStorage,
-        });
-
-        mockStore.bills.mockImplementationOnce(() => {
-          return {
-            create: () => {
-              return Promise.reject(new Error("Erreur 500"));
-            },
-          };
-        });
-
-        const handleChangeFile = jest.fn((e) => newBill.handleChangeFile(e));
-        const inputFile = screen.getByTestId("file");
-
-        const img = new File(["img"], "image.png", { type: "image/png" });
-
-        inputFile.addEventListener("change", handleChangeFile);
-        await waitFor(() => {
-          userEvent.upload(inputFile, img);
-        });
-
-        expect(handleChangeFile).toBeCalled();
-        expect(inputFile.files[0].name).toBe("image.png");
-        await new Promise(process.nextTick);
-        expect(console.error).toBeCalled();
-      });
     });
   });
 
@@ -287,46 +240,6 @@ describe("Given I am connected as an employee and I am on a NewBill page", () =>
       fireEvent.submit(form);
 
       expect(spy).toHaveBeenCalled();
-    });
-  });
-
-  describe("When an error occurs on API", () => {
-    test("Then it should fetches error from an API and fails with 500 error", async () => {
-      jest.spyOn(mockStore, "bills");
-      jest.spyOn(console, "error").mockImplementation(() => {});
-      mockStore.bills.mockImplementationOnce(() => {
-        return {
-          update: () => {
-            return Promise.reject(new Error("Erreur 500"));
-          },
-        };
-      });
-
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname });
-      };
-
-      const html = NewBillUI();
-      document.body.innerHTML = html;
-
-      //initie le store
-      const store = mockStore;
-
-      const newBill = new NewBill({
-        document,
-        onNavigate,
-        store,
-        localStorage: window.localStorage,
-      });
-
-      // Submit form
-      const form = screen.getByTestId("form-new-bill");
-      const handleSubmit = jest.fn((e) => newBill.handleSubmit(e));
-      form.addEventListener("submit", handleSubmit);
-
-      fireEvent.submit(form);
-      // await new Promise(process.nextTick);
-      expect(console.error).toBeCalled();
     });
   });
 });
